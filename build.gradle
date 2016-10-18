@@ -1,0 +1,60 @@
+//plugins {
+//    id "com.athaydes.osgi-run" version "1.5.2"
+//}
+
+group 'com.estafet.training.redhat'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'osgi'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-core'
+    compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-jetty'
+    compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-jms'
+    compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-blueprint'
+    compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-jackson'
+    compile group: 'org.apache.activemq', name: 'activemq-camel', version: '5.6.0'
+    compile group: 'org.apache.activemq', name: 'activemq-core', version: '5.6.0'
+//    osgiRuntime (group: 'org.ops4j.pax.logging', version: '1.4', name: 'pax-logging-service') {
+//        exclude module: 'log4j'
+//    }
+//    osgiRuntime group: 'org.ops4j.pax.logging', version: '1.4', name: 'pax-logging-api'
+//    osgiRuntime group: 'org.apache.aries', version: '1.1.0', name: 'org.apache.aries.util'
+//    osgiRuntime group: 'org.apache.aries.proxy', version: '1.0.1', name: 'org.apache.aries.proxy'
+//    osgiRuntime group: 'org.apache.aries.blueprint', version: '1.1.0', name: 'org.apache.aries.blueprint'
+//    osgiRuntime group: 'org.apache.camel', version: "2.8.1", name: 'camel-blueprint'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+//// deployment to OSGi container config
+//runOsgi {
+//    // which bundles do you want to add?
+//    // transitive deps will be automatically added
+//    bundles += project
+//
+//    // make the manifest visible to the IDE for OSGi support
+//    //copyManifestTo file( 'auto-generated/MANIFEST.MF' )
+//}
+
+jar {
+    manifest {
+            instruction 'Import-Package',
+                    'org.apache.camel.builder, ' +
+                            'org.apache.camel.component.http, ' +
+                            'org.apache.camel.component.jackson, ' +
+                            'org.apache.activemq, ' +
+                            'org.apache.activemq.pool, ' +
+                            'org.apache.camel.component.jms, ' +
+                            'org.apache.activemq.camel.component, ' +
+                            'com.fasterxml.jackson.databind, ' +
+                            ' *'
+    }
+}
