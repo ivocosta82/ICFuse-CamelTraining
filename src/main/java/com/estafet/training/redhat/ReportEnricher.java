@@ -11,7 +11,7 @@ import org.apache.camel.processor.aggregate.AggregationStrategy;
 public class ReportEnricher implements AggregationStrategy {
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
         Message in = oldExchange.getIn();
-System.out.println("enricher");
+
         IbanSingleReportEntity reportEntity = in.getBody(IbanSingleReportEntity.class);
 
         reportEntity.setBalance(100.00);

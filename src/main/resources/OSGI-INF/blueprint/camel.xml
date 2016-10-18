@@ -16,9 +16,12 @@
 
     <bean id="reportEnricher" class="com.estafet.training.redhat.ReportEnricher" />
 
+    <bean id="reportAggregation" class="com.estafet.training.redhat.ReportAggregationStrategy" />
+
     <camelContext xmlns="http://camel.apache.org/schema/blueprint">
         <dataFormats>
-            <json id="accountList" library="Jackson" unmarshalTypeName="com.estafet.training.redhat.models.IbanWrapper"/>
+            <json id="accountList" library="Jackson" unmarshalTypeName="com.estafet.training.redhat.models.IbanWrapper" />
+            <json id="ibanList" library="Jackson" />
         </dataFormats>
 
         <onException>
@@ -42,7 +45,7 @@
             <split>
                 <simple>${body.getIbans()}</simple>
                 <setHeader headerName="IbanTimestampOfRequest">
-                    <simple>${date:now:yyyyMMddhhmmss}</simple>
+                    <simple>${date:now:yyyyMMddhhmm}</simple>
                 </setHeader>
                 <to uri="activemq:estafet.iban.report.splitted.queue"/>
             </split>
@@ -62,15 +65,15 @@
         <route id="processing">
             <from uri="activemq:estafet.iban.report.splitted.queue" />
             <bean ref="singleIbanProcessor" />
-            <to uri="log:com.estafet.training?level=INFO"/>
             <enrich uri="direct:dataMock" strategyRef="reportEnricher" />
-            <to uri="log:com.estafet.training?level=INFO"/>
- <!--           <aggregate completionTimeout="2000" strategyRef="">
+            <aggregate completionTimeout="2000" strategyRef="reportAggregation">
                 <correlationExpression>
                     <simple>header.IbanTimestampOfRequest</simple>
                 </correlationExpression>
+                <marshal ref="ibanList"/>
                 <to uri="log:com.estafet.training?level=INFO"/>
-            </aggregate>-->
+                <to uri="file://c:/fuse?fileName=${date:now:yyyy MM dd hh mm}.txt" />
+            </aggregate>
         </route>
     </camelContext>
 </blueprint>
