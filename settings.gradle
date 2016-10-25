@@ -1,2 +1,5 @@
 rootProject.name = 'ICFuse'
-
+include 'bankx-models'
+include 'bankx-accounts-api'
+include 'bankx-accounts-impl'
+include 'bankx-accounts-alternate-impl'
