@@ -11,7 +11,7 @@ public class AccountServiceImpl implements AccountServiceApi {
         Account acc = new Account();
 
         acc.setIban(iban);
-        acc.setName("Ivan Miltenov");
+        acc.setName("Ivan Miltenov from Alternate");
         acc.setCurrency("EUR");
         acc.setBalance(100.00);
 

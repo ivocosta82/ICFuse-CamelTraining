@@ -24,6 +24,7 @@ subprojects {
 
 dependencies {
     compile project(":bankx-models")
+    compile project(":bankx-accounts-api")
     compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-core'
     compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-jetty'
     compile group: 'org.apache.camel', version: "2.15.1", name: 'camel-jms'

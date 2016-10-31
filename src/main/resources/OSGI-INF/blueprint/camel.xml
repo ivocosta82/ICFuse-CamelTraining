@@ -12,7 +12,9 @@
 
     <bean id="singleIbanProcessor" class="com.estafet.training.redhat.SingleIbanProcessor"/>
 
-    <bean id="mockData" class="com.estafet.training.redhat.MockDataProcessor"/>
+    <bean id="mockData" class="com.estafet.training.redhat.MockDataProcessor">
+        <property name="accountEnricherService" ref="accoutService" />
+    </bean>
 
     <bean id="reportEnricher" class="com.estafet.training.redhat.ReportEnricher" />
 

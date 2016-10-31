@@ -1,5 +1,7 @@
 package com.estafet.training.redhat;
 
+import com.estafet.training.redhat.api.AccountServiceApi;
+import com.estafet.training.redhat.models.Account;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
@@ -10,13 +12,17 @@ import java.util.Map;
  * Created by Ivo on 18/10/2016.
  */
 public class MockDataProcessor implements Processor {
+
+    private AccountServiceApi accountEnricherService;
+
     public void process(Exchange exchange) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
 
-        map.put("balance", 100.00);
-        map.put("currency", "BGN");
-        map.put("name", "Ivan Miltenov");
+        Account account = accountEnricherService.getAccountByIban("123");
 
-        exchange.getOut().setBody(map);
+        exchange.getOut().setBody(account);
+    }
+
+    public void setAccountEnricherService(AccountServiceApi accountEnricherService) {
+        this.accountEnricherService = accountEnricherService;
     }
 }
